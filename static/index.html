@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Project</title>
+</head>
+<body>
+    <h1>WebSocket Project For Training</h1>
+    <!-- set the input id to messageInput -->
+    <input type="text" id="messageInput" placeholder="Type a message">
+    <!-- calling sendMessage function -->
+    <button onclick="sendMessage()">Send Message</button>
+    <div id="output"></div>
+
+    <!-- Java Script -->
+    <script>
+        //Creates a new WebSocket object (socket) and establishes a connection to the WebSocket 
+        //server at ws://localhost:8080/ws. The URL corresponds to the WebSocket endpoint on the server.
+        const socket = new WebSocket("ws://localhost:8080/ws");
+        //Onmessage event handler is assigned a function that will be called whenever a message is received from the server.
+        //it gets the message from the event.data and updates the content of the HTML element 
+        //with the id "output" to display the received message.
+        socket.onmessage = (event) => {
+            const outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = `Received: ${event.data}`;
+        };
+
+        //send message function trigered when user clicked on button send.
+        //how the client communicate with the websocket server.
+        function sendMessage() {
+            //It retrieves the value from the input field with the id "messageInput" 
+            //and sends it to the server using the socket.send method.
+            const inputField = document.getElementById("messageInput");
+            const message = inputField.value;
+            socket.send(message);
+        }
+    </script>
+</body>
+</html>
